@@ -1,16 +1,14 @@
 import pdfplumber
 import os
+import re
 
 # 경로 설정
 RAW_DATA_DIR = "data/raw/"
 PROCESSED_DATA_DIR = "data/processed/"
-INPUT_PDF = os.path.join(RAW_DATA_DIR, "korean2024.pdf")
-OUTPUT_TXT = os.path.join(PROCESSED_DATA_DIR, "korean2024_extracted.txt")
+INPUT_PDF = os.path.join(RAW_DATA_DIR, "korean2023.pdf")
+OUTPUT_TXT = os.path.join(PROCESSED_DATA_DIR, "korean2023.txt")
 
-def extract_text_from_pdf_two_columns(pdf_path, output_path):
-    """
-    2단 레이아웃 PDF에서 텍스트를 열 단위로 추출해 저장합니다.
-    """
+def pdf_to_txt(pdf_path, output_path):
     try:
         # 출력 디렉토리가 없으면 생성
         os.makedirs(os.path.dirname(output_path), exist_ok=True)
@@ -46,9 +44,17 @@ def extract_text_from_pdf_two_columns(pdf_path, output_path):
                     print(f"페이지 {page_num}: 한쪽 열 텍스트 추출 실패 (이미지 기반일 가능성 있음)")
                 
                 # 페이지별로 텍스트 결합 (왼쪽 → 오른쪽 순서로)
-                full_text += f"--- Page {page_num} ---\n"
-                full_text += "Left Column:\n" + (left_text or "No text") + "\n\n"
-                full_text += "Right Column:\n" + (right_text or "No text") + "\n\n"
+                # full_text += f"--- Page {page_num} ---\n"
+                page_text = left_text + '\n' + right_text
+                page_text = re.sub(r'\s+', ' ', page_text)
+                page_text = re.sub(r'\[\d+점\]', '', page_text)
+                page_text = re.sub(r'\(cid:\d+\)', '', page_text)
+                page_text = re.sub(r'(\d{1,2}\..*?\?)', r'\n\1\n', page_text)
+                if page_num == 1:
+                    page_text = re.sub(r'(\[\d+\s*(~|～)\s*\d+\][^.\n]*\.)', r'\1\n', page_text)
+                else:
+                    page_text = re.sub(r'(\[\d+\s*(~|～)\s*\d+\][^.\n]*\.)', r'\n\1\n', page_text)
+                full_text += page_text + '\n'
             
             # 텍스트 파일로 저장
             with open(output_path, 'w', encoding='utf-8') as f:
@@ -62,4 +68,4 @@ def extract_text_from_pdf_two_columns(pdf_path, output_path):
 
 if __name__ == "__main__":
     # PDF 텍스트 추출 실행
-    extract_text_from_pdf_two_columns(INPUT_PDF, OUTPUT_TXT)
+    pdf_to_txt(INPUT_PDF, OUTPUT_TXT)
