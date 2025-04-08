@@ -8,17 +8,17 @@ def extract_all_question_sets_fixed(text):
     실제 문제 번호(start~end)에 맞춰 각 묶음별 문제를 정확히 추출한다.
     """
     answers = [
-        5, 3, 1, 5, 3, 2, 2, 3, 1, 5,
-        2, 3, 1, 4, 4, 5, 4, 2, 1, 3,
-        5, 2, 1, 3, 3, 2, 5, 1, 4, 1,
-        2, 2, 3, 4, 4, 5, 4, 4, 5, 1,
-        3, 3, 2, 5, 1
+        2, 5, 1, 1, 3, 4, 3, 2, 3, 2,
+        5, 5, 4, 4, 2, 4, 1, 3, 3, 2,
+        4, 1, 4, 4, 3, 5, 5, 2, 1, 3,
+        5, 4, 5, 3, 4, 5, 4, 1, 1, 3,
+        1, 2, 2, 5, 3
     ]
 
     scores = [
-        2, 2, 3, 2, 2, 3, 2, 2, 2, 3,
-        2, 2, 2, 2, 2, 3, 2, 2, 2, 2,
-        3, 2, 2, 2, 2, 2, 3, 2, 2, 2,
+        2, 3, 2, 2, 2, 2, 2, 3, 2, 2,
+        2, 2, 3, 2, 2, 3, 2, 2, 2, 2,
+        2, 2, 3, 2, 2, 2, 3, 2, 2, 2,
         3, 2, 2, 3, 2, 2, 2, 2, 2, 3,
         2, 2, 2, 2, 3
     ]
@@ -138,6 +138,6 @@ def save_to_json(txt_path, json_path, max_q=45):
 
     print(f"저장 완료: {json_path}")
 
-TXT = "data/processed/korean2024.txt"
-JSON = "data/processed/korean2024.json"
+TXT = "data/processed/korean2022.txt"
+JSON = "data/processed/korean2022.json"
 save_to_json(TXT, JSON, max_q=45)
