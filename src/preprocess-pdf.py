@@ -5,8 +5,8 @@ import re
 # 경로 설정
 RAW_DATA_DIR = "data/raw/"
 PROCESSED_DATA_DIR = "data/processed/"
-INPUT_PDF = os.path.join(RAW_DATA_DIR, "korean2022.pdf")
-OUTPUT_TXT = os.path.join(PROCESSED_DATA_DIR, "korean2022.txt")
+INPUT_PDF = os.path.join(RAW_DATA_DIR, "korean2025.pdf")
+OUTPUT_TXT = os.path.join(PROCESSED_DATA_DIR, "korean2025.txt")
 
 def pdf_to_txt(pdf_path, output_path):
     try:
